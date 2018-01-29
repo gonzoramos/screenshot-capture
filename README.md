@@ -1,22 +1,23 @@
 
 # Screenshot Capture / Browser Extension
 
+Fork from https://github.com/simov/screenshot-capture
 
-**Install: [Chrome][chrome-store]** / **Donate: [PayPal][paypal]**
+## Goals
 
+A lightweight extension to capture a full screenshot of a webpage and save it along with some metadata to a datastore.
 
 ## Features
 
 - Capture Viewport
-- Crop and Save (automatic save)
-- Crop and Wait (manual save)
+- Save (automatic save)
+- Wait (manual save)
 - Configurable Keyboard Shortcut
 - Preserve or downscale screenshot size on HDPI displays like Retina
 - Unique screenshot date/time file name
 - Save screenshots in PNG file format
 - No special permissions required
 - Open Source
-
 
 ## Options
 
@@ -38,6 +39,8 @@
 ## License
 
 The MIT License (MIT)
+
+Copyright (c) 2018 Gonzalo Ramos <gonzo.ramos@gmail.com>
 
 Copyright (c) 2014-2018 Simeon Velichkov <simeonvelichkov@gmail.com> (https://github.com/simov/screenshot-capture)
 
