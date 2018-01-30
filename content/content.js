@@ -1,71 +1,23 @@
-var selection;
-
-var overlay = (active => state => {
-  active =
-    typeof state === "boolean" ? state : state === null ? active : !active;
-  chrome.runtime.sendMessage({ message: "active", active });
-})(false);
-
-var image = done => {
-  var image = new Image();
-  image.id = "fake-image";
-  image.src = chrome.runtime.getURL("/images/pixel.png");
-  image.onload = () => {
-    $("body").append(image);
-    done();
-  };
-};
-
-var init = done => {
-  // $("#fake-image").Jcrop(
-  //   {
-  //     bgColor: "none",
-  //     onSelect: e => {
-  //       selection = e;
-  //       capture();
-  //     },
-  //     onChange: e => {
-  //       selection = e;
-  //     },
-  //     onRelease: e => {
-  //       setTimeout(() => {
-  //         selection = null;
-  //       }, 100);
-  //     }
-  //   },
-  //   function ready() {
-  //     jcrop = this;
-  //     $(".jcrop-hline, .jcrop-vline").css({
-  //       backgroundImage:
-  //         "url(" + chrome.runtime.getURL("/images/Jcrop.gif") + ")"
-  //     });
-  //     if (selection) {
-  //       jcrop.setSelect([selection.x, selection.y, selection.x2, selection.y2]);
-  //     }
-  //     done && done();
-  //   }
-  // );
-};
-
-var capture = force => {
+// take snapshot
+var capture = done => {
   chrome.storage.sync.get(config => {
     if (config.method === "view") {
       chrome.runtime.sendMessage(
         {
-          message: "capture",
+          message: "captureEvent",
           area: { x: 0, y: 0, w: innerWidth, h: innerHeight },
           dpr: devicePixelRatio
         },
         res => {
-          overlay(false);
-          save(res.image);
+          done(res);
         }
       );
     }
   });
 };
 
-var filename = () => {
+// generate filename
+var filename = suffix => {
   var pad = n => (n = n + "") && (n.length >= 2 ? n : "0" + n);
   var timestamp = (now =>
     [pad(now.getFullYear()), pad(now.getMonth() + 1), pad(now.getDate())].join(
@@ -75,25 +27,48 @@ var filename = () => {
     [pad(now.getHours()), pad(now.getMinutes()), pad(now.getSeconds())].join(
       "-"
     ))(new Date());
-  return "Full Screenshot Capture - " + timestamp + ".png";
+  return "ScreenshotCapture-" + timestamp + "." + suffix;
 };
 
-// simulate user's click on link
-var save = image => {
+// save data (simulate user's click on link)
+var saveImage = (image, filename) => {
   var link = document.createElement("a");
-  link.download = filename();
+  link.download = filename;
   link.href = image;
   link.click();
 };
 
+var saveText = (text, filename) => {
+  var blob = new Blob([text], { type: "text/plain" });
+  var url = window.URL.createObjectURL(blob);
+  var link = document.createElement("a");
+  link.download = filename;
+  link.innerHTML = "filename";
+  link.href = url;
+
+  link.click();
+};
+
 chrome.runtime.onMessage.addListener((req, sender, res) => {
+  var done = data => {
+    saveImage(data.image, filename("png"));
+    saveText(
+      JSON.stringify({
+        id: "user id",
+        feedback: "this is (not) awesome",
+        score: 0
+      }),
+      filename("json")
+    );
+  };
+
   if (req.message === "init") {
+    console.log("got init");
     res({}); // prevent re-injecting
-
-    overlay();
-    capture(true);
-
-    console.log("init received");
+    capture(done);
+  } else if (req.message === "submitEvent") {
+    console.log("got submit");
+    capture(done);
   }
   return true;
 });
