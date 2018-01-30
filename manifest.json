@@ -1,18 +1,17 @@
 {
   "manifest_version": 2,
-  "name"            : "Screenshot Capture",
-  "version"         : "1.7",
-  "description"     : "Screenshot Capture",
+  "name"            : "Full Screenshot Capture",
+  "version"         : "0.1",
+  "description"     : "This extension captures the image of the current tab + some metadata and saves it in to a datastore.",
 
   "browser_action": {
     "default_icon": {
       "19" : "/images/icon19.png",
       "38" : "/images/icon38.png"
     },
-    "default_title": "Screenshot Capture"
+    "default_popup": "popup.html",
+    "default_title": "Full Screenshot Capture"
   },
-
-  "options_page": "/content/options.html",
 
   "background" : {
     "scripts": [
@@ -31,7 +30,7 @@
       "suggested_key": {
         "default": "Alt+S"
       },
-      "description": "Take Screenshot"
+      "description": "Take Full Screenshot"
     }
   },
 
@@ -40,8 +39,6 @@
     "48"  : "images/icon48.png",
     "128" : "images/icon128.png"
   },
-
-  "homepage_url": "https://chrome.google.com/webstore/detail/screenshot-capture/giabbpobpebjfegnpcclkocepcgockkc",
 
   "permissions": [
     "storage",
