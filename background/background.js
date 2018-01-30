@@ -1,8 +1,8 @@
-// chrome.storage.sync.clear()
+chrome.storage.sync.clear()
 
 chrome.storage.sync.get(config => {
   if (!config.method) {
-    chrome.storage.sync.set({ method: "full" });
+    chrome.storage.sync.set({ method: "view" });
   }
   if (config.dpr === undefined) {
     chrome.storage.sync.set({ dpr: true });
@@ -11,44 +11,9 @@ chrome.storage.sync.get(config => {
 
 // ???
 function inject(tab) {
-  chrome.tabs.executeScript(tab.id, {
-    file: "content/content.js",
-    runAt: "document_start"
-  });
-
-  chrome.tabs.sendMessage(tab.id, { message: "init" }, res => {
-    // if (res) {
-    //   clearTimeout(timeout);
-    // }
-  });
-
-  // var timeout = setTimeout(() => {
-  //   chrome.tabs.insertCSS(tab.id, {
-  //     file: "vendor/jquery.Jcrop.min.css",
-  //     runAt: "document_start"
-  //   });
-  //   chrome.tabs.insertCSS(tab.id, {
-  //     file: "css/content.css",
-  //     runAt: "document_start"
-  //   });
-
-  //   chrome.tabs.executeScript(tab.id, {
-  //     file: "vendor/jquery.min.js",
-  //     runAt: "document_start"
-  //   });
-  //   chrome.tabs.executeScript(tab.id, {
-  //     file: "vendor/jquery.Jcrop.min.js",
-  //     runAt: "document_start"
-  //   });
-  // chrome.tabs.executeScript(tab.id, {
-  //   file: "content/content.js",
-  //   runAt: "document_start"
-  // });
-
-  //   setTimeout(() => {
-  //     chrome.tabs.sendMessage(tab.id, { message: "init" });
-  //   }, 100);
-  // }, 100);
+  setTimeout(() => {
+    chrome.tabs.sendMessage(tab.id, { message: "init" }, res => {});
+  }, 200);
 }
 
 // is one clicks on the extension's button / icon
@@ -80,11 +45,7 @@ chrome.runtime.onMessage.addListener((req, sender, res) => {
             } else {
               res({ message: "image", image: image });
             }
-          } else {
-            crop(image, req.area, req.dpr, config.dpr, cropped => {
-              res({ message: "image", image: cropped });
-            });
-          }
+          } 
         });
       });
     });
@@ -100,24 +61,7 @@ chrome.runtime.onMessage.addListener((req, sender, res) => {
             tabId: sender.tab.id,
             text: "⬒"
           });
-        } else if (config.method === "full") {
-          chrome.browserAction.setTitle({
-            tabId: sender.tab.id,
-            title: "Capture Document"
-          });
-          chrome.browserAction.setBadgeText({
-            tabId: sender.tab.id,
-            text: "⬛"
-          });
         }
-        // else if (config.method === 'crop') {
-        //   chrome.browserAction.setTitle({tabId: sender.tab.id, title: 'Crop and Save'})
-        //   chrome.browserAction.setBadgeText({tabId: sender.tab.id, text: '◩'})
-        // }
-        // else if (config.method === 'wait') {
-        //   chrome.browserAction.setTitle({tabId: sender.tab.id, title: 'Crop and Wait'})
-        //   chrome.browserAction.setBadgeText({tabId: sender.tab.id, text: '◪'})
-        // }
       });
     } else {
       chrome.browserAction.setTitle({

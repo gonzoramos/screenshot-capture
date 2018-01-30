@@ -1,8 +1,7 @@
 var state = {
   shortcut: {},
   methods: [
-    { id: "view", icon: "⬒", title: "Capture Viewport" },
-    { id: "full", icon: "⬛", title: "Capture Document" }
+    { id: "view", icon: "⬒", title: "Capture Viewport" }
   ],
   dpr: [
     { id: true, title: "Preserve original DPI size" },
@@ -13,7 +12,6 @@ var state = {
 chrome.commands.getAll((commands) => {
     var command = commands.filter((command) => command.name === 'take-screenshot')[0]
     state.shortcut = command.shortcut
-    m.redraw()
   })  
 
 // read (previously) stored state
