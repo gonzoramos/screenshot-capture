@@ -26,7 +26,11 @@ $("#btn_submit").click(e => {
     setTimeout(() => {
       chrome.tabs.sendMessage(
         tab.id,
-        { message: "submitEvent", tabId: tab.id, metadata: { trigger: trigger, response: diary, id: 0 } },
+        {
+          message: "submitEvent",
+          tabId: tab.id,
+          metadata: { trigger: trigger, response: diary, id: 0 }
+        },
         res => {}
       );
     }, 200);
@@ -34,9 +38,7 @@ $("#btn_submit").click(e => {
 });
 
 chrome.runtime.onMessage.addListener((req, sender, res) => {
-  res({});
-
-  console.log("popup got ", req);
-
-  return true;
+  if (req.message === "thumbnail") {
+    console.log("got thumb");
+  }
 });

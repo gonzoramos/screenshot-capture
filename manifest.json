@@ -1,16 +1,16 @@
 {
   "manifest_version": 2,
-  "name"            : "Full Screenshot Capture",
+  "name"            : "UX Snap",
   "version"         : "0.1",
   "description"     : "This extension captures the image of the current tab + some metadata and saves it in to a datastore.",
 
   "browser_action": {
     "default_icon": {
-      "19" : "/images/icon19.png",
-      "38" : "/images/icon38.png"
+      "19" : "/images/uxsnap19.png",
+      "38" : "/images/uxsnap38.png"
     },
     "default_popup": "popup.html",
-    "default_title": "Full Screenshot Capture"
+    "default_title": "UX Snap"
   },
 
   "background" : {
@@ -20,17 +20,12 @@
     "persistent": false
   },
 
-  "web_accessible_resources": [
-    "/images/Jcrop.gif",
-    "/images/pixel.png"
-  ],
-
   "commands": {
     "take-screenshot": {
       "suggested_key": {
         "default": "Alt+S"
       },
-      "description": "Take Full Screenshot"
+      "description": "Take Screenshot"
     }
   },
 
@@ -40,9 +35,9 @@
 }],
 
   "icons": {
-    "16"  : "images/icon16.png",
-    "48"  : "images/icon48.png",
-    "128" : "images/icon128.png"
+    "16"  : "images/uxsnap16.png",
+    "48"  : "images/uxsnap48.png",
+    "128" : "images/uxsnap128.png"
   },
 
   "permissions": [
