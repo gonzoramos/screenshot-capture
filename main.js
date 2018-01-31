@@ -17,10 +17,26 @@ chrome.commands.getAll(commands => {
 console.log("hello popup");
 
 $("#btn_submit").click(e => {
-  console.log("submit clicked");
+  //console.log("submit clicked");
+  // collect metadata
+  var trigger = $("#input_trigger").val();
+  var diary = $("#input_response").val();
+
   chrome.tabs.getSelected(null, tab => {
     setTimeout(() => {
-      chrome.tabs.sendMessage(tab.id, { message: "submitEvent" }, res => {});
+      chrome.tabs.sendMessage(
+        tab.id,
+        { message: "submitEvent", tabId: tab.id, metadata: { trigger: trigger, response: diary, id: 0 } },
+        res => {}
+      );
     }, 200);
   });
+});
+
+chrome.runtime.onMessage.addListener((req, sender, res) => {
+  res({});
+
+  console.log("popup got ", req);
+
+  return true;
 });

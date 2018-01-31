@@ -12,7 +12,7 @@ chrome.storage.sync.get(config => {
 // ???
 function captureTab(tab) {
   setTimeout(() => {
-    chrome.tabs.sendMessage(tab.id, { message: "init" }, res => {});
+    chrome.tabs.sendMessage(tab.id, { message: "init", tabId: tab.id }, res => {});
   }, 200);
 }
 
@@ -34,10 +34,16 @@ chrome.commands.onCommand.addListener(command => {
 chrome.runtime.onMessage.addListener((req, sender, res) => {
   if (req.message === "captureEvent") {
     chrome.tabs.getSelected(null, tab => {
-      chrome.tabs.captureVisibleTab(tab.windowId, { format: "png" }, image => {
+      chrome.tabs.captureVisibleTab({ format: "png" }, image => {
         // image is base64
         res({ message: "image", image: image });
       });
+    });
+  } else if (req.message === "submitEvent" ) {
+    console.log("got submit");
+
+    chrome.tabs.getSelected(null, tab => {
+      captureTab(tab);
     });
   }
   return true;

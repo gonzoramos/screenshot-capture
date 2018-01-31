@@ -25,20 +25,25 @@
         <div class="my_header">UI Diary</div>
     </header>
     <div class="margin-1">
-        <div class="row">
-            <form class="col s12">
-                <div class="row">
-                    <div class="input-field col s12">
-                        <textarea id="textarea1" class="materialize-textarea"></textarea>
-                        <label for="textarea1">Dear diary...</label>
-                    </div>
+        <form class="col s12">
+            <div class="row" style="margin-bottom: 0; margin-top: 2rem;">
+                <div class="input-field col s12">
+                    <input placeholder="My UI was very naughty..." id="input_trigger" type="text">
+                    <label for="input_trigger">What did happen?</label>
                 </div>
-            </form>
-        </div>
-
-        <div class="row">
-            <a id="btn_submit" class="waves-effect waves-light btn right">submit</a>
-        </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <textarea id="input_response" class="materialize-textarea" placeholder="It was the best of UX, it was the worst of UX..."
+                        data-length="240"></textarea>
+                    <label for="input_response">Dear diary...</label>
+                </div>
+            </div>
+            <div class="row">
+                <a class="btn waves-effect waves-light" id="btn_submit">submit</a>
+                <!--a id="btn_submit" class="waves-effect waves-light btn right">submit</a-->
+            </div>
+        </form>
     </div>
 
     <script src="main.js"></script>
