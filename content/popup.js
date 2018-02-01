@@ -40,5 +40,6 @@ $("#btn_submit").click(e => {
 chrome.runtime.onMessage.addListener((req, sender, res) => {
   if (req.message === "thumbnail") {
     console.log("got thumb");
+    window.close();
   }
 });
